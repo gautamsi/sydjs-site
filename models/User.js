@@ -26,6 +26,7 @@ var deps = {
 User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, index: true },
+	emails: { type: Types.TextArray },
 	password: { type: Types.Password, initial: true },
 	resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {

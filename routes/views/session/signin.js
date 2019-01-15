@@ -33,8 +33,12 @@ exports = module.exports = function(req, res) {
 			req.flash('error', 'Your username or password were incorrect, please try again.');
 			return next();
 		}
-		
-		keystone.session.signin({ email: req.body.email, password: req.body.password }, req, res, onSuccess, onFail);
+		keystone.list('User').model.findOne().or([{email: req.body.email},{emails: req.body.email}]).exec(function(err, user) {
+			if (err) return next(err);
+			// console.log(user)
+			// console.log(user && user.email || "not found")			
+			keystone.session.signin({ email: (user && user.email) || req.body.email, password: req.body.password }, req, res, onSuccess, onFail);
+		});
 		
 	});
 	
